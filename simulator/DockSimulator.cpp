@@ -260,3 +260,111 @@ nlohmann::json DockSimulator::handleSet(const nlohmann::json& setMsg) {
     }
     return result;
 }
+// JSON load/save implementation
+
+#include <fstream>
+
+void DockSimulator::load_from_json(const std::string& filepath) {
+    std::ifstream in(filepath);
+    if (!in.is_open()) {
+        throw std::runtime_error("Failed to open JSON file.");
+    }
+    nlohmann::json j;
+    in >> j;
+
+    for (auto& el : j.items()) {
+        const std::string& key = el.key();
+        const auto& val = el.value();
+        if (key == "silent_mode") silent_mode = val.get<bool>();
+        else if (key == "mode_code") mode_code = val.get<int>();
+        else if (key == "temperature") temperature = val.get<double>();
+        else if (key == "drone_in_dock") drone_in_dock = val.get<bool>();
+        else if (key == "gateway_sn") gateway_sn = val.get<std::string>();
+        else if (key == "air_transfer_enabled") air_transfer_enabled = val.get<bool>();
+        else if (key == "battery_level") battery_level = val.get<double>();
+        else if (key == "error_code") error_code = val.get<int>();
+        else if (key == "status_message") status_message = val.get<std::string>();
+        else if (key == "latitude") latitude = val.get<double>();
+        else if (key == "longitude") longitude = val.get<double>();
+        else if (key == "altitude") altitude = val.get<double>();
+        else if (key == "landing_gear_deployed") landing_gear_deployed = val.get<bool>();
+        else if (key == "mission_id") mission_id = val.get<int>();
+        else if (key == "firmware_version") firmware_version = val.get<std::string>();
+        else if (key == "signal_strength") signal_strength = val.get<int>();
+        else if (key == "cpu_usage") cpu_usage = val.get<double>();
+        else if (key == "memory_usage") memory_usage = val.get<double>();
+        else if (key == "storage_usage") storage_usage = val.get<double>();
+        else if (key == "is_charging") is_charging = val.get<bool>();
+        else if (key == "charging_level") charging_level = val.get<double>();
+        else if (key == "battery_health") battery_health = val.get<double>();
+        else if (key == "last_maintenance_date") last_maintenance_date = val.get<std::string>();
+        else if (key == "flight_hours") flight_hours = val.get<double>();
+        else if (key == "geofence_status") geofence_status = val.get<std::string>();
+        else if (key == "obstacle_detected") obstacle_detected = val.get<bool>();
+        else if (key == "weather_condition") weather_condition = val.get<std::string>();
+        else if (key == "camera_status") camera_status = val.get<std::string>();
+        else if (key == "sensor_status") sensor_status = val.get<std::string>();
+        else if (key == "autopilot_mode") autopilot_mode = val.get<std::string>();
+        else if (key == "return_to_home_enabled") return_to_home_enabled = val.get<bool>();
+        else if (key == "emergency_flag") emergency_flag = val.get<bool>();
+        else if (key == "communication_status") communication_status = val.get<std::string>();
+        else if (key == "gps_lock_status") gps_lock_status = val.get<bool>();
+        else if (key == "payload_weight") payload_weight = val.get<double>();
+        else if (key == "max_payload") max_payload = val.get<double>();
+        else if (key == "software_version") software_version = val.get<std::string>();
+        else if (key == "security_patch_level") security_patch_level = val.get<std::string>();
+        else if (key == "last_update_timestamp") last_update_timestamp = val.get<long long>();
+        // Add additional fields if needed
+    }
+}
+
+void DockSimulator::save_to_json(const std::string& filepath) const {
+    nlohmann::json j;
+
+    j["silent_mode"] = silent_mode;
+    j["mode_code"] = mode_code;
+    j["temperature"] = temperature;
+    j["drone_in_dock"] = drone_in_dock;
+    j["gateway_sn"] = gateway_sn;
+    j["air_transfer_enabled"] = air_transfer_enabled;
+    j["battery_level"] = battery_level;
+    j["error_code"] = error_code;
+    j["status_message"] = status_message;
+    j["latitude"] = latitude;
+    j["longitude"] = longitude;
+    j["altitude"] = altitude;
+    j["landing_gear_deployed"] = landing_gear_deployed;
+    j["mission_id"] = mission_id;
+    j["firmware_version"] = firmware_version;
+    j["signal_strength"] = signal_strength;
+    j["cpu_usage"] = cpu_usage;
+    j["memory_usage"] = memory_usage;
+    j["storage_usage"] = storage_usage;
+    j["is_charging"] = is_charging;
+    j["charging_level"] = charging_level;
+    j["battery_health"] = battery_health;
+    j["last_maintenance_date"] = last_maintenance_date;
+    j["flight_hours"] = flight_hours;
+    j["geofence_status"] = geofence_status;
+    j["obstacle_detected"] = obstacle_detected;
+    j["weather_condition"] = weather_condition;
+    j["camera_status"] = camera_status;
+    j["sensor_status"] = sensor_status;
+    j["autopilot_mode"] = autopilot_mode;
+    j["return_to_home_enabled"] = return_to_home_enabled;
+    j["emergency_flag"] = emergency_flag;
+    j["communication_status"] = communication_status;
+    j["gps_lock_status"] = gps_lock_status;
+    j["payload_weight"] = payload_weight;
+    j["max_payload"] = max_payload;
+    j["software_version"] = software_version;
+    j["security_patch_level"] = security_patch_level;
+    j["last_update_timestamp"] = last_update_timestamp;
+
+    std::ofstream out(filepath);
+    if (!out.is_open()) {
+        throw std::runtime_error("Failed to open output JSON file.");
+    }
+    out << j.dump(4);
+}
+
