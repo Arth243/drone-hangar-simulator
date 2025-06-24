@@ -18,6 +18,9 @@ public:
     // Handle property/set commands: input is a JSON object containing fields to set or commands
     // Returns a JSON object indicating success (0) or failure (1) per field
     nlohmann::json handleSet(const nlohmann::json& setMsg);
+    void load_from_json(const std::string& filepath);
+    void save_to_json(const std::string& filepath) const;
+
 
 private:
     // ---------- Properties (example ~50 fields; adjust per your spec) ----------
