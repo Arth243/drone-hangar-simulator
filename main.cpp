@@ -4,18 +4,27 @@
 int main() {
     DockSimulator dock;
 
-    // Set some initial values
-    dock.set_property("drone_count", 5);
-    dock.set_property("status", "idle");
+    try {
+        dock.load_from_json("state.json");
+    } catch (const std::exception& e) {
+        std::cerr << "Error loading state: " << e.what() << std::endl;
+        return 1;
+    }
 
-    // Print values
+    std::cout << "Loaded state:" << std::endl;
     std::cout << "Drone Count: " << dock.get_property("drone_count") << std::endl;
     std::cout << "Status: " << dock.get_property("status") << std::endl;
 
-    // Simulate a transition
+    // Change a property
     dock.set_property("status", "active");
 
-    std::cout << "Status changed to: " << dock.get_property("status") << std::endl;
+    try {
+        dock.save_to_json("updated_state.json");
+    } catch (const std::exception& e) {
+        std::cerr << "Error saving state: " << e.what() << std::endl;
+        return 1;
+    }
 
+    std::cout << "Updated status and saved to updated_state.json" << std::endl;
     return 0;
 }
