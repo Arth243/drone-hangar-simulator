@@ -29,9 +29,11 @@ target_include_directories(docksim PUBLIC
 target_link_libraries(docksim PRIVATE nlohmann_json::nlohmann_json)
 
 # Demo executable
-add_executable(demo
+add_executable(Demo
     demo/demo.cpp
+    main.cpp
 )
+
 target_link_libraries(demo PRIVATE docksim)
 
 # Testing
