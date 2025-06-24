@@ -286,7 +286,7 @@ void DockSimulator::load_from_json(const std::string& filepath) {
         else if (key == "drone_in_dock") drone_in_dock = val.get<bool>();
         else if (key == "gateway_sn") gateway_sn = val.get<std::string>();
         else if (key == "air_transfer_enabled") air_transfer_enabled = val.get<bool>();
-        else if (key == "battery_level") battery_level = val.get<double>();
+        else if (key == "battery_level" && val.is_number()) battery_level = val.get<double>();
         else if (key == "error_code") error_code = val.get<int>();
         else if (key == "status_message") status_message = val.get<std::string>();
         else if (key == "latitude") latitude = val.get<double>();
