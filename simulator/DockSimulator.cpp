@@ -192,11 +192,16 @@ nlohmann::json DockSimulator::handleSet(const nlohmann::json& setMsg) {
         const std::string& key = it.key();
         try {
             // Example property sets:
-            if (key == "silent_mode" && it.value().is_boolean()) {
-                silent_mode = it.value().get<bool>();
-                markDirty(key);
-                result[key] = 0;
-            } else if (key == "mode_code" && it.value().is_number_integer()) {
+            if (key == "silent_mode") {
+    if (it.value().is_boolean()) {
+        silent_mode = it.value().get<bool>();
+        markDirty(key);
+        result[key] = 0;
+    } else {
+        result[key] = "Expected boolean";
+    }
+}
+ else if (key == "mode_code" && it.value().is_number_integer()) {
                 mode_code = it.value().get<int>();
                 markDirty(key);
                 result[key] = 0;
