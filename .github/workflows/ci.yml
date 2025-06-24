@@ -17,10 +17,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup CMake
-        uses: lukka/get-cmake@v3
-        with:
-          version: '3.20.0'
+     - name: Setup CMake
+  uses: lukka/get-cmake@v3.21.3
+
 
       - name: Install build tools
         run: |
