@@ -1,30 +1,20 @@
-#include "simulator/DockSimulator.hpp"
 #include <iostream>
+#include <nlohmann/json.hpp>
+#include "DockSimulator.hpp"
 
 int main() {
     DockSimulator dock;
 
-    try {
-        dock.load_from_json("state.json");
-    } catch (const std::exception& e) {
-        std::cerr << "Error loading state: " << e.what() << std::endl;
-        return 1;
-    }
+    // 1) Show initial state:
+    auto state = dock.getStatePayload();
+    std::cout << "Initial State:\n" 
+              << state.dump(2) << "\n\n";
 
-    std::cout << "Loaded state:" << std::endl;
-    std::cout << "Drone Count: " << dock.get_property("drone_count") << std::endl;
-    std::cout << "Status: " << dock.get_property("status") << std::endl;
+    // 2) Send a simple command:
+    nlohmann::json cmd = {{"command", "start"}};
+    auto response = dock.handleSet(cmd);
+    std::cout << "Response:\n" 
+              << response.dump(2) << "\n";
 
-    // Change a property
-    dock.set_property("status", "active");
-
-    try {
-        dock.save_to_json("updated_state.json");
-    } catch (const std::exception& e) {
-        std::cerr << "Error saving state: " << e.what() << std::endl;
-        return 1;
-    }
-
-    std::cout << "Updated status and saved to updated_state.json" << std::endl;
     return 0;
 }
