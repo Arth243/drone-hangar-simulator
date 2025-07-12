@@ -222,39 +222,16 @@ nlohmann::json DockSimulator::handleSet(const nlohmann::json& setMsg) {
             }
             // State-machine commands:
             else if (key == "command" && it.value().is_string()) {
-                std::string cmd = it.value().get<std::string>();
-                bool ok = false;
-                // Example: Idle -> PreFlight on "takeoff"
-                if (cmd == "takeoff" && current_state == DroneState::Idle) {
-                    ok = transitionTo(DroneState::PreFlight);
-                }
-                // Example: PreFlight -> InFlight on "launch"
-                else if (cmd == "launch" && current_state == DroneState::PreFlight) {
-                    ok = transitionTo(DroneState::InFlight);
-                }
-                // Example: InFlight -> Returning on "land"
-                else if (cmd == "land" && current_state == DroneState::InFlight) {
-                    ok = transitionTo(DroneState::Returning);
-                }
-                // Example: Returning -> Charging on "dock"
-                else if (cmd == "dock" && current_state == DroneState::Returning) {
-                    ok = transitionTo(DroneState::Charging);
-                }
-                // Example: Charging -> Idle when fully charged
-                else if (cmd == "complete_charge" && current_state == DroneState::Charging) {
-                    ok = transitionTo(DroneState::Idle);
-                }
-                // Emergency command
-                else if (cmd == "emergency" ) {
-                    ok = transitionTo(DroneState::Emergency);
-                }
-                // Add other transitions per your spec
-                if (ok) {
-                    result[key] = 0;
-                } else {
-                    result[key] = 1;
-                }
-            }
+    std::string cmd = it.value().get<std::string>();
+    if (stateMachine.processCommand(cmd)) {
+        current_state = static_cast<DroneState>(stateMachine.getCurrentState());
+        markDirty("current_state");
+        result[key] = 0;
+    } else {
+        result[key] = 1;
+    }
+}
+
             else {
                 // Unrecognized field or wrong type
                 result[key] = 1;
