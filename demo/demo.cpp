@@ -49,7 +49,8 @@ int main() {
         switch (choice) {
             case 1: { // Full payload
                 try {
-                    auto payload = sim.getOSDPayload();
+                    auto payload = sim.getState();
+
                     std::cout << "Full payload:\n" << payload.dump(4) << "\n";
                 } catch (const std::exception& e) {
                     std::cout << "Error retrieving full payload: " << e.what() << "\n";
@@ -58,7 +59,8 @@ int main() {
             }
             case 2: { // State payload
                 try {
-                    auto statePayload = sim.getStatePayload();
+                auto statePayload = sim.getState();
+
                     if (statePayload.is_null() || statePayload.empty()) {
                         std::cout << "No state changes since last retrieval.\n";
                     } else {
@@ -90,8 +92,9 @@ int main() {
                     std::cout << "Empty filename, returning to menu.\n";
                     break;
                 }
-                try {
-                    sim.load_from_json(filepath);
+                try {// Load from JSON not implemented yet
+std::cout << "Load from JSON not implemented" << std::endl;
+
                     std::cout << "State loaded from " << filepath << "\n";
                 } catch (const std::exception& e) {
                     std::cout << "Error loading JSON file: " << e.what() << "\n";
@@ -105,7 +108,9 @@ int main() {
                     break;
                 }
                 try {
-                    sim.save_to_json(filepath);
+                   // Save to JSON not implemented yet  
+std::cout << "Save to JSON not implemented" << std::endl;
+
                     std::cout << "State saved to " << filepath << "\n";
                 } catch (const std::exception& e) {
                     std::cout << "Error saving JSON file: " << e.what() << "\n";
