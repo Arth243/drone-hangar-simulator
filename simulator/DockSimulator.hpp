@@ -1,39 +1,35 @@
-#ifndef STATEMACHINE_HPP
-#define STATEMACHINE_HPP
+#ifndef DOCKSIMULATOR_HPP
+#define DOCKSIMULATOR_HPP
 
 #include <string>
+#include <unordered_map>
+#include <nlohmann/json.hpp>
+#include "StateMachine.hpp"
 
-enum class DroneState {
-    Idle,
-    PreFlight,
-    InFlight,
-    Returning,
-    Charging,
-    Maintenance,
-    Emergency
-};
-
-class StateMachine {
+class DockSimulator {
 public:
-    StateMachine();
+    DockSimulator();
 
-    // Returns the current state
-    DroneState getCurrentState() const;
+    // Returns a JSON describing all current properties
+    nlohmann::json getState() const;
 
-    // Attempts to transition; returns true on success
-    bool transitionTo(DroneState newState);
-
-    // Converts a state enum to its string name
-    std::string stateToString(DroneState state) const;
-
-    // Processes a textual command, mapping it to a transition
-    bool processCommand(const std::string& command);
+    // Applies settings/commands from input JSON, returns result codes
+    nlohmann::json handleSet(const nlohmann::json& input);
 
 private:
-    DroneState currentState;
+    StateMachine stateMachine;
+    DroneState    current_state;
+    double        battery_level;
+    double        temperature;
+    bool          silent_mode;
+    std::string   gateway_sn;
 
-    // Validates if from→to is allowed (here, all transitions allowed)
-    bool isValidTransition(DroneState from, DroneState to) const;
+    // Tracks which fields were modified
+    std::unordered_map<std::string, bool> dirty_properties;
+
+    void markDirty(const std::string& property);
+    std::string generateId() const;
+    long long getCurrentTimestamp() const;
 };
 
-#endif // STATEMACHINE_HPP
+#endif // DOCKSIMULATOR_HPP
