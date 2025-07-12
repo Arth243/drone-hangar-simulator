@@ -2,7 +2,6 @@
 #define STATEMACHINE_HPP
 
 #include <string>
-#include <nlohmann/json.hpp>
 
 enum class DroneState {
     Idle,
@@ -17,22 +16,26 @@ enum class DroneState {
 class StateMachine {
 public:
     StateMachine();
-    
-    // Get current state
+
+    // Returns the current state
     DroneState getCurrentState() const;
-    
-    // Transition to new state
+
+    // Attempts to transition; returns true on success
     bool transitionTo(DroneState newState);
-    
-    // Convert state to string
+
+    // Converts a state enum to its string name
     std::string stateToString(DroneState state) const;
-    
-    // Process command
+
+    // Processes a textual command, mapping it to a transition
     bool processCommand(const std::string& command);
-    
+
 private:
     DroneState currentState;
+
+    // Validates if from→to is allowed (here, all transitions allowed)
     bool isValidTransition(DroneState from, DroneState to) const;
 };
+
+#endif // STATEMACHINE_HPP
 
 #endif // STATEMACHINE_HPP
