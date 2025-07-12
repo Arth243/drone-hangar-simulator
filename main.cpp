@@ -4,9 +4,8 @@
 
 int main() {
     DockSimulator dock;
+auto state = dock.getState();   // not getStatePayload()
 
-    // 1) Show initial state:
-    auto state = dock.getStatePayload();
     std::cout << "Initial State:\n" 
               << state.dump(2) << "\n\n";
 
