@@ -36,7 +36,7 @@ add_executable(Demo
     main.cpp
 )
 
-target_link_libraries(demo PRIVATE docksim)
+target_link_libraries(Demo PRIVATE docksim)
 
 # Testing
 include(CTest)
