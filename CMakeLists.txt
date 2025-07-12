@@ -8,8 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(docksim
     simulator/DockSimulator.cpp
     simulator/StateMachine.cpp
-    # Add more simulator/ .cpp files if you have them
+    simulator/DockSimulator.hpp
+    simulator/StateMachine.hpp
 )
+
 target_include_directories(docksim PUBLIC simulator)
 
 # ----- Core executable -----
