@@ -1,4 +1,5 @@
 #include "StateMachine.hpp"
+#include <iostream>
 
 StateMachine::StateMachine() : currentState(DroneState::Idle) {}
 
@@ -28,6 +29,8 @@ std::string StateMachine::stateToString(DroneState state) const {
 }
 
 bool StateMachine::processCommand(const std::string& command) {
+    std::cout << "Processing command: " << command << std::endl;
+    
     if (command == "start" || command == "takeoff") {
         return transitionTo(DroneState::PreFlight);
     } else if (command == "launch") {
@@ -40,11 +43,14 @@ bool StateMachine::processCommand(const std::string& command) {
         return transitionTo(DroneState::Idle);
     } else if (command == "emergency") {
         return transitionTo(DroneState::Emergency);
+    } else if (command == "maintenance") {
+        return transitionTo(DroneState::Maintenance);
     }
+    
     return false;
 }
 
 bool StateMachine::isValidTransition(DroneState from, DroneState to) const {
-    // For simplicity, allow all transitions
+    // For simplicity in seminar demo, allow all transitions
     return true;
 }
