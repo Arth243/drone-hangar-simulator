@@ -1,5 +1,6 @@
 #ifndef DOCKSIMULATOR_HPP
 #define DOCKSIMULATOR_HPP
+#include "StateMachine.hpp"
 
 #include <string>
 #include <unordered_set>
@@ -24,6 +25,7 @@ public:
 
 private:
     // ---------- Properties (example ~50 fields; adjust per your spec) ----------
+    StateMachine stateMachine;
     bool silent_mode = false;
     int mode_code = 0;
     double temperature = 25.0;
