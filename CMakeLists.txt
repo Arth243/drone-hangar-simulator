@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(docksim
     simulator/DockSimulator.cpp
     simulator/StateMachine.cpp
-    # (add any other .cpp you have under simulator/)
+    # Add more simulator/ .cpp files if you have them
 )
 target_include_directories(docksim PUBLIC simulator)
 
@@ -28,4 +28,3 @@ FetchContent_Declare(
   GIT_TAG v3.11.2
 )
 FetchContent_MakeAvailable(nlohmann_json)
-
