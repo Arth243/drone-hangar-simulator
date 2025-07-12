@@ -1,7 +1,9 @@
 #include "DockSimulator.hpp"
+
 #include <chrono>
 #include <random>
 #include <iostream>
+#include <sstream>            // ← Add this
 
 DockSimulator::DockSimulator()
   : stateMachine(),
